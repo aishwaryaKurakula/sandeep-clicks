@@ -13,6 +13,7 @@ app.use(express.json())
 app.use('/api/products', require('./routes/productRoutes'))
 app.use('/api/bookings', require('./routes/bookingRoutes'))
 app.use('/api/gallery',  require('./routes/galleryRoutes'))
+app.use('/api/auth', require('./routes/authRoutes'))
 
 const PORT = process.env.PORT || 5000
 
