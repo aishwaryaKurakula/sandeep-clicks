@@ -36,7 +36,7 @@ const addProduct = async (req, res) => {
     }
 
     const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'sandeepscliks/products'
+      folder: 'sandeepsclicks/products'
     })
 
     const product = await Product.create({
