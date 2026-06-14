@@ -3,12 +3,12 @@ import { useState } from 'react'
 function Pricing() {
   const [activeTab, setActiveTab] = useState('wedding')
 
-  const tabs = ['wedding', 'birthdays', 'saree ceremony', 'corporate']
+  const tabs = ['wedding', 'birthdays', 'saree ceremony', 'maternity']
 
   const packages = {
     wedding: [
       {
-        name: 'Gold',
+        name: 'Standard',
         desc: 'Full-day wedding with complete coverage',
         price: '₹1.5L',
         duration: 'Full day coverage',
@@ -22,8 +22,8 @@ function Pricing() {
         ]
       },
       {
-        name: 'Platinum',
-        desc: 'Premium wedding package with everything included',
+        name: 'Premium',
+        desc: 'wedding package with everything included',
         price: '₹3L',
         duration: 'Multi-day full coverage',
         featured: true,
@@ -33,14 +33,13 @@ function Pricing() {
           '4K Editing with Teasers',
           '100 Sheets Albums each',
           'Drone + LED Screen',
-          'Hard Disk included',
           'Two photo frames'
         ]
       }
     ],
     birthdays: [
       {
-        name: 'Gold',
+        name: 'Standard',
         desc: 'Beautiful birthday coverage',
         price: '₹25K',
         duration: 'Half day coverage',
@@ -54,7 +53,7 @@ function Pricing() {
         ]
       },
       {
-        name: 'Platinum',
+        name: 'Premium',
         desc: 'Complete birthday celebration package',
         price: '₹60K',
         duration: 'Full day coverage',
@@ -71,7 +70,7 @@ function Pricing() {
     ],
     'saree ceremony': [
       {
-        name: 'Gold',
+        name: 'Standard',
         desc: 'Elegant saree ceremony coverage',
         price: '₹25K',
         duration: 'Half day coverage',
@@ -85,7 +84,7 @@ function Pricing() {
         ]
       },
       {
-        name: 'Platinum',
+        name: 'Premium',
         desc: 'Complete saree ceremony package',
         price: '₹60K',
         duration: 'Full day coverage',
@@ -100,9 +99,9 @@ function Pricing() {
         ]
       }
     ],
-    corporate: [
+    maternity: [
       {
-        name: 'Gold',
+        name: 'Standard',
         desc: 'Professional corporate event coverage',
         price: '₹20K',
         duration: 'Up to 4 hours',
@@ -116,7 +115,7 @@ function Pricing() {
         ]
       },
       {
-        name: 'Platinum',
+        name: 'Premium',
         desc: 'Full corporate event package',
         price: '₹40K',
         duration: 'Full day',
@@ -146,7 +145,7 @@ function Pricing() {
 
         {/* tabs */}
         <div style={{
-          display: 'flex', gap: 0,
+          display: 'flex',
           marginTop: '2.5rem', marginBottom: '3rem',
           borderBottom: '0.5px solid rgba(201,137,42,0.2)',
           width: 'fit-content', flexWrap: 'wrap'
@@ -170,22 +169,25 @@ function Pricing() {
           ))}
         </div>
 
-        {/* cards */}
+        {/* two cards side by side — fixed width, centered */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px,1fr))',
-          gap: '1.5rem'
+          display: 'flex',
+          gap: '1.5rem',
+          justifyContent: 'center',
+          flexWrap: 'wrap'
         }}>
           {packages[activeTab].map(pkg => (
             <div
               key={pkg.name}
               className='reveal'
               style={{
+                width: '300px',
+                flexShrink: 0,
                 background: pkg.featured
                   ? 'linear-gradient(135deg,#1a120a,#0d0d0d)'
                   : 'var(--dark3)',
                 border: `0.5px solid ${pkg.featured ? 'var(--gold)' : 'rgba(201,137,42,0.15)'}`,
-                padding: '2.5rem 2rem',
+                padding: '2rem 1.5rem',
                 position: 'relative'
               }}
             >
@@ -201,49 +203,62 @@ function Pricing() {
                 }}>{pkg.badge}</span>
               )}
 
+              {/* name + desc */}
               <h3 style={{
                 fontFamily: "'Playfair Display', serif",
-                fontSize: '1.2rem', color: 'var(--ivory)',
-                marginBottom: '0.4rem'
+                fontSize: '1.1rem', color: 'var(--ivory)',
+                marginBottom: '0.3rem'
               }}>{pkg.name}</h3>
 
               <p style={{
-                fontSize: '0.8rem', color: 'var(--muted)',
-                marginBottom: '1.8rem'
+                fontSize: '0.78rem', color: 'var(--muted)',
+                marginBottom: '1.2rem', lineHeight: 1.5
               }}>{pkg.desc}</p>
 
+              {/* price */}
               <div style={{
                 fontFamily: "'Playfair Display', serif",
-                fontSize: '2.5rem', color: 'var(--gold)',
-                lineHeight: 1, marginBottom: '0.3rem'
+                fontSize: '2rem', color: 'var(--gold)',
+                lineHeight: 1, marginBottom: '0.2rem'
               }}>{pkg.price}</div>
 
               <p style={{
-                fontSize: '0.75rem', color: 'var(--muted)',
-                marginBottom: '2rem'
+                fontSize: '0.72rem', color: 'var(--muted)',
+                marginBottom: '1.5rem'
               }}>{pkg.duration}</p>
 
+              {/* divider */}
+              <div style={{
+                width: '40px', height: '1px',
+                background: 'rgba(201,137,42,0.3)',
+                marginBottom: '1.2rem'
+              }} />
+
+              {/* features */}
               <ul style={{
-                listStyle: 'none', fontSize: '0.82rem',
-                color: 'var(--ivory-dim)', marginBottom: '2rem'
+                listStyle: 'none', fontSize: '0.8rem',
+                color: 'var(--ivory-dim)', marginBottom: '1.5rem'
               }}>
                 {pkg.features.map(f => (
                   <li key={f} style={{
-                    padding: '0.5rem 0',
+                    padding: '0.4rem 0',
                     borderBottom: '0.5px solid rgba(255,255,255,0.05)',
                     display: 'flex', alignItems: 'center', gap: '0.7rem'
                   }}>
-                    <span style={{ color: 'var(--gold)', fontSize: '0.7rem' }}>✓</span>
+                    <span style={{ color: 'var(--gold)', fontSize: '0.7rem', flexShrink: 0 }}>✓</span>
                     {f}
                   </li>
                 ))}
               </ul>
 
+              {/* cta */}
               <button
-                onClick={() => document.getElementById('booking').scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById('booking')
+                  .scrollIntoView({ behavior: 'smooth' })}
                 style={{
-                  display: 'block', width: '100%', padding: '0.8rem',
-                  textAlign: 'center', fontSize: '0.75rem',
+                  display: 'block', width: '100%',
+                  padding: '0.7rem',
+                  textAlign: 'center', fontSize: '0.72rem',
                   letterSpacing: '0.12em', textTransform: 'uppercase',
                   fontWeight: 600, cursor: 'pointer',
                   border: '1px solid rgba(201,137,42,0.4)',
@@ -261,9 +276,7 @@ function Pricing() {
                     e.currentTarget.style.color = 'var(--gold)'
                   }
                 }}
-              >
-                Book {pkg.name}
-              </button>
+              >Book {pkg.name}</button>
             </div>
           ))}
         </div>

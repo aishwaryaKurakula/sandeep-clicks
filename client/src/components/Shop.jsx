@@ -5,108 +5,112 @@ function Shop() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // fallback static products shown before Sandeep adds real ones
   const staticProducts = [
-    {
-      _id: 's1',
-      icon: '🖼️',
-      name: 'LED Photo Frames',
-      desc: 'Gallery-quality LED frames in various sizes. Perfect for walls and gifting.',
-      price: '799'
-    },
-    {
-      _id: 's2',
-      icon: '☕',
-      name: 'Mug Printing',
-      desc: 'Custom printed mugs — a daily reminder of your best moments. Great for gifting.',
-      price: '249'
-    },
-    {
-      _id: 's3',
-      icon: '👕',
-      name: 'T-Shirt Printing',
-      desc: 'High quality custom printed t-shirts for events, birthdays and gifting.',
-      price: '349'
-    },
-    {
-      _id: 's4',
-      icon: '🔑',
-      name: 'Keychain Printing',
-      desc: 'Personalised photo keychains — carry your memory everywhere you go.',
-      price: '149'
-    },
-    {
-      _id: 's5',
-      icon: '💡',
-      name: 'LED Rotating Lamp',
-      desc: 'Stunning rotating LED photo lamps. A unique gift for any occasion.',
-      price: '799'
-    },
-    {
-      _id: 's6',
-      icon: '🛋️',
-      name: 'Pillow Printing',
-      desc: 'Soft custom printed pillows. Normal and magic variants available.',
-      price: '699'
-    },
-    {
-      _id: 's7',
-      icon: '🪞',
-      name: 'Magic Mirror',
-      desc: 'A beautiful magic mirror with your favourite photo printed on it.',
-      price: '599'
-    },
-    {
-      _id: 's8',
-      icon: '🖼️',
-      name: 'Photo Frames',
-      desc: 'Classic wooden and designer photo frames in multiple sizes.',
-      price: '599'
-    },
-    {
-      _id: 's9',
-      icon: '👜',
-      name: 'Pouch Printing',
-      desc: 'Custom printed pouches perfect for gifting and personal use.',
-      price: '249'
-    },
-    {
-      _id: 's10',
-      icon: '🗂️',
-      name: 'Frame Sets',
-      desc: 'Beautiful multi-photo frame sets for walls and special memories.',
-      price: '999'
-    },
-    {
-      _id: 's11',
-      icon: '🏮',
-      name: '3D Photo Lamp',
-      desc: 'Stunning 3D illusion lamps with your photo — perfect night light gift.',
-      price: '999'
-    },
-    {
-      _id: 's12',
-      icon: '🪵',
-      name: 'Wooden Photo Frame',
-      desc: 'Premium quality wooden frames that add elegance to any photo.',
-      price: '599'
-    }
-  ]
-
+  {
+    _id: 's1',
+    name: 'LED Photo Frames',
+    image: '/led.jpg',
+    desc: 'Gallery-quality LED frames in various sizes. Perfect for walls and gifting.',
+    price: 'Starting ₹799'
+  },
+  {
+    _id: 's2',
+    name: 'Mug Printing',
+    image: '/mug.jpg',
+    desc: 'Custom printed mugs — a daily reminder of your best moments. Great for gifting.',
+    price: 'Starting ₹249'
+  },
+  {
+    _id: 's3',
+    name: 'T-Shirt Printing',
+    image: '/t-shirt-printing.jpeg',
+    desc: 'High quality custom printed t-shirts for events, birthdays and gifting.',
+    price: 'Starting ₹349'
+  },
+  {
+    _id: 's4',
+    name: 'Keychain Printing',
+    image: '/keychain-printing.jpg',
+    desc: 'Personalised photo keychains — carry your memory everywhere you go.',
+    price: 'Starting ₹149'
+  },
+  {
+    _id: 's5',
+    name: 'LED Rotating Lamp',
+    image: '/rotating-led-lamp.jpeg',
+    desc: 'Stunning rotating LED photo lamps. A unique gift for any occasion.',
+    price: 'Starting ₹799'
+  },
+  {
+    _id: 's6',
+    name: 'Pillow Printing',
+    image: '/normal-pillow.jpeg',
+    desc: 'Soft custom printed pillows — a cozy way to keep your favourite memory close.',
+    price: 'Starting ₹699'
+  },
+  {
+    _id: 's7',
+    name: 'Magic Pillow Printing',
+    image: '/magic-pillow.jpeg',
+    desc: 'Magic pillows that reveal a hidden photo when touched — a delightful surprise gift.',
+    price: 'Starting ₹799'
+  },
+  {
+    _id: 's8',
+    name: 'Magic Mirror',
+    image: '/magic-mirror.jpeg',
+    desc: 'A beautiful magic mirror with your favourite photo printed on it.',
+    price: 'Starting ₹599'
+  },
+  {
+    _id: 's9',
+    name: 'Photo Frames',
+    image: '/photo-frame.jpeg',
+    desc: 'Classic wooden and designer photo frames in multiple sizes.',
+    price: 'Starting ₹599'
+  },
+  {
+    _id: 's10',
+    name: 'Pouch Printing',
+    image: '/phone-pouch.jpg',
+    desc: 'Custom printed pouches perfect for gifting and personal use.',
+    price: 'Starting ₹249'
+  },
+  {
+    _id: 's11',
+    name: 'Frame Sets',
+    image: '/frame-sets.jpg',
+    desc: 'Beautiful multi-photo frame sets for walls and special memories.',
+    price: 'Starting ₹999'
+  },
+  {
+    _id: 's12',
+    name: '3D Photo Lamp',
+    image: '/3d-lamp.jpg',
+    desc: 'Stunning 3D illusion lamps with your photo — perfect night light gift.',
+    price: 'Starting ₹999'
+  },
+  {
+    _id: 's13',
+    name: 'Wooden Photo Frame',
+    image: '/wooden-photo-frame.jpg',
+    desc: 'Premium quality wooden frames that add elegance to any photo.',
+    price: 'Starting ₹599'
+  }
+]
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getAllProducts()
-        setProducts(data)
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setLoading(false)
-      }
+  const fetchProducts = async () => {
+    try {
+      const data = await getAllProducts()
+      setProducts(data)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false) // ← must be here
     }
-
-    fetchProducts()
-  }, [])
+  }
+  fetchProducts()
+}, [])
 
   const displayProducts =
     products.length > 0 ? products : staticProducts
@@ -133,12 +137,11 @@ function Shop() {
           margin: '0 auto'
         }}
       >
-        {/* heading */}
         <div className="reveal">
           <p className="section-eyebrow">Print Products</p>
 
           <h2 className="section-title">
-            Take the memory home
+            Take the Memory Home
           </h2>
 
           <p className="section-sub">
@@ -163,7 +166,7 @@ function Shop() {
             style={{
               display: 'grid',
               gridTemplateColumns:
-                'repeat(auto-fit, minmax(220px,1fr))',
+                'repeat(auto-fit, minmax(220px, 1fr))',
               gap: '1.2rem',
               marginTop: '3.5rem'
             }}
@@ -176,10 +179,10 @@ function Shop() {
                   background: 'var(--dark)',
                   border:
                     '0.5px solid rgba(201,137,42,0.12)',
-                  padding: '2rem 1.5rem',
-                  textAlign: 'center',
-                  transition:
-                    'border-color 0.3s, transform 0.3s'
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor =
@@ -194,96 +197,99 @@ function Shop() {
                     'translateY(0)'
                 }}
               >
-                {product.imageUrl ? (
+                {(product.imageUrl || product.image) && (
                   <img
-                    src={product.imageUrl}
+                    src={product.imageUrl || product.image}
                     alt={product.name}
                     style={{
                       width: '100%',
-                      height: '160px',
-                      objectFit: 'cover',
-                      marginBottom: '1rem'
+                      height: '180px',
+                      objectFit: 'cover'
                     }}
                   />
-                ) : (
-                  <div
+                )}
+
+                <div
+                  style={{
+                    padding: '1.2rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flex: 1
+                  }}
+                >
+                  <h3
                     style={{
-                      fontSize: '2.5rem',
+                      fontFamily:
+                        "'Playfair Display', serif",
+                      fontSize: '1rem',
+                      color: 'var(--ivory)',
+                      marginBottom: '0.5rem'
+                    }}
+                  >
+                    {product.name}
+                  </h3>
+
+                  <p
+                    style={{
+                      fontSize: '0.8rem',
+                      color: 'var(--muted)',
+                      lineHeight: 1.6,
+                      marginBottom: '0.8rem',
+                      flex: 1
+                    }}
+                  >
+                    {product.desc ||
+                      product.description}
+                  </p>
+
+                  <p
+                    style={{
+                      fontSize: '0.78rem',
+                      color: 'var(--gold)',
+                      letterSpacing: '0.08em',
                       marginBottom: '1rem'
                     }}
                   >
-                    {product.icon}
-                  </div>
-                )}
+                    {product.price}
+                  </p>
 
-                <h3
-                  style={{
-                    fontFamily:
-                      "'Playfair Display', serif",
-                    fontSize: '1.1rem',
-                    color: 'var(--ivory)',
-                    marginBottom: '0.5rem'
-                  }}
-                >
-                  {product.name}
-                </h3>
-
-                <p
-                  style={{
-                    fontSize: '0.82rem',
-                    color: 'var(--muted)',
-                    lineHeight: 1.6,
-                    marginBottom: '1rem'
-                  }}
-                >
-                  {product.desc || product.description}
-                </p>
-
-                <p
-                  style={{
-                    fontSize: '0.75rem',
-                    color: 'var(--gold)',
-                    letterSpacing: '0.08em',
-                    marginBottom: '1.2rem'
-                  }}
-                >
-                  Starting ₹{product.price}
-                </p>
-
-                <a
-                  href={getWhatsAppUrl(
-                    product.name,
-                    `₹${product.price}`
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    display: 'inline-block',
-                    padding: '0.5rem 1.2rem',
-                    border:
-                      '0.5px solid rgba(201,137,42,0.4)',
-                    color: 'var(--gold)',
-                    fontSize: '0.72rem',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background =
-                      'var(--gold)'
-                    e.currentTarget.style.color =
-                      'var(--dark)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background =
-                      'transparent'
-                    e.currentTarget.style.color =
-                      'var(--gold)'
-                  }}
-                >
-                  Enquire on WhatsApp
-                </a>
+                  <a
+                    href={getWhatsAppUrl(
+                      product.name,
+                      product.price
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: 'block',
+                      padding: '0.5rem 1.2rem',
+                      border:
+                        '0.5px solid rgba(201,137,42,0.4)',
+                      color: 'var(--gold)',
+                      fontSize: '0.72rem',
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      textDecoration: 'none',
+                      textAlign: 'center',
+                      transition: 'all 0.2s',
+                      marginTop: 'auto'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background =
+                        'var(--gold)'
+                      e.currentTarget.style.color =
+                        'var(--dark)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background =
+                        'transparent'
+                      e.currentTarget.style.color =
+                        'var(--gold)'
+                    }}
+                  >
+                    Enquire on WhatsApp
+                  </a>
+                </div>
               </div>
             ))}
           </div>

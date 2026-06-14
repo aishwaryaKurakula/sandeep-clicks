@@ -39,19 +39,19 @@ function Services() {
         'Two photo frames'
       ]
     },
-    {
-      num: '04',
-      icon: '🏢',
-      name: 'Corporate Events',
-      desc: 'Professional photography for conferences, product launches and company events.',
-      includes: [
-        'Candid + Traditional photography',
-        '4K Video Editing',
-        'Brand-consistent editing',
-        'Fast turnaround',
-        'Usage rights included'
-      ]
-    },
+   {
+  num: '04',
+  icon: '🌿',
+  name: 'Maternity Photography',
+  desc: 'Tender, glowing portraits that celebrate the beauty of motherhood and the journey to parenthood.',
+  includes: [
+    'Candid + natural posed shots',
+    'Indoor or outdoor session',
+    'Wardrobe & prop guidance',
+    '30+ edited photos',
+    'Two printed photo frames'
+  ]
+},
     {
       num: '05',
       icon: '🌅',
@@ -65,19 +65,19 @@ function Services() {
         'Print album'
       ]
     },
-    {
-      num: '06',
-      icon: '🎭',
-      name: 'Portrait Sessions',
-      desc: 'Individual, couple, family and maternity portraits crafted with natural light and genuine emotion.',
-      includes: [
-        '2-hour session',
-        'Multiple looks/outfits',
-        'Indoor or outdoor',
-        '30 edited images',
-        'Same-day previews'
-      ]
-    }
+   {
+  num: '06',
+  icon: '🎬',
+  name: 'Cinematography',
+  desc: 'Cinematic films that tell the story of your event — not just a recording, but a memory you will relive forever.',
+  includes: [
+    'Full event video coverage',
+    '4K cinematic editing',
+    'Wedding / event highlight film',
+    'Background score & colour grading',
+    'Digital delivery + hard disk copy'
+  ]
+},
   ]
 
   return (

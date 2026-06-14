@@ -30,7 +30,7 @@ function Navbar() {
           textDecoration: 'none',
           letterSpacing: '0.02em'
         }}>
-          Sandeeps<span style={{ color: 'var(--gold)' }}>Cliks</span>
+          Sandeeps<span style={{ color: 'var(--gold)' }}>clicks</span>
         </a>
 
         {/* desktop links */}

@@ -1,22 +1,7 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
 
 function Hero() {
-  useEffect(() => {
-    // reveal animation observer
-    const reveals = document.querySelectorAll('.reveal')
-    reveals.forEach(r => r.classList.add('hidden'))
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.remove('hidden')
-          e.target.classList.add('visible')
-          observer.unobserve(e.target)
-        }
-      })
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' })
-    reveals.forEach(r => observer.observe(r))
-    return () => observer.disconnect()
-  }, [])
+  const [flipped, setFlipped] = useState(false)
 
   return (
     <section id='hero' style={{
@@ -54,41 +39,139 @@ function Hero() {
         ))}
       </div>
 
-      {/* content */}
+      {/* main layout — text left, card right */}
       <div style={{
-        position: 'relative', textAlign: 'center',
-        maxWidth: '820px', padding: '0 2rem',
+        position: 'relative',
+        width: '100%',
+        maxWidth: '1100px',
+        padding: '0 2rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '4rem',
         animation: 'fadeUp 1.2s 0.8s ease both'
-      }}>
-        <p style={{
-          fontSize: '0.72rem', letterSpacing: '0.3em',
-          textTransform: 'uppercase', color: 'var(--gold)',
-          marginBottom: '1.4rem', fontWeight: 500
-        }}>Visual Storytelling &nbsp;·&nbsp; Hyderabad</p>
+      }} className='hero-inner'>
 
-        <h1 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 'clamp(3.2rem,7vw,6rem)',
-          lineHeight: 1.05, color: 'var(--ivory)',
-          marginBottom: '1.2rem'
-        }}>
-          Every frame<br />tells a <em style={{ fontStyle: 'italic', color: 'var(--gold)' }}>story</em>
-        </h1>
+        {/* LEFT — text content */}
+        <div style={{ flex: '1', textAlign: 'left', minWidth: 0 }} className='hero-text'>
+          <p style={{
+            fontSize: '0.72rem', letterSpacing: '0.3em',
+            textTransform: 'uppercase', color: 'var(--gold)',
+            marginBottom: '1.4rem', fontWeight: 500
+          }}>Visual Storytelling &nbsp;·&nbsp; Hyderabad</p>
 
-        <p style={{
-          fontFamily: "'Cormorant Garamond', serif",
-          fontSize: 'clamp(1.1rem,2vw,1.45rem)',
-          color: 'var(--ivory-dim)', fontStyle: 'italic',
-          fontWeight: 300, marginBottom: '2.8rem', lineHeight: 1.5
-        }}>
-          Weddings, portraits, events — captured with intention,<br />
-          printed with permanence.
-        </p>
+          <h1 style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: 'clamp(2.8rem,5vw,5.5rem)',
+            lineHeight: 1.05, color: 'var(--ivory)',
+            marginBottom: '1.2rem'
+          }}>
+            Every frame<br />tells a <em style={{ fontStyle: 'italic', color: 'var(--gold)' }}>story</em>
+          </h1>
 
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href='#portfolio' className='btn-primary'>View Portfolio</a>
-          <a href='#booking' className='btn-outline'>Book a Session</a>
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: 'clamp(1rem,1.6vw,1.35rem)',
+            color: 'var(--ivory-dim)', fontStyle: 'italic',
+            fontWeight: 300, marginBottom: '2.8rem', lineHeight: 1.6
+          }}>
+            Capturing Moments, One Frame at a Time<br />
+            
+          </p>
+
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <a href='#portfolio' className='btn-primary'>View Portfolio</a>
+            <a href='#booking' className='btn-outline'>Book a Session</a>
+          </div>
         </div>
+
+        {/* RIGHT — visiting card flip */}
+        <div style={{
+          flexShrink: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1rem',
+        }} className='hero-card'>
+
+          {/* flip container */}
+          <div
+            onMouseEnter={() => setFlipped(true)}
+            onMouseLeave={() => setFlipped(false)}
+            onClick={() => setFlipped(f => !f)}
+            style={{
+              width: '450px',
+              aspectRatio: '1.75 / 1',
+              perspective: '1000px',
+              cursor: 'pointer',
+            }}
+          >
+            <div style={{
+              width: '100%',
+              height: '100%',
+              position: 'relative',
+              transformStyle: 'preserve-3d',
+              transition: 'transform 0.7s ease',
+              transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+              borderRadius: '4px',
+              boxShadow: '0 8px 40px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(201,137,42,0.25)',
+            }}>
+              {/* FRONT */}
+              <div style={{
+                position: 'absolute', inset: 0,
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                borderRadius: '4px',
+                overflow: 'hidden',
+              }}>
+                <img
+                  src='/front.jpeg'
+                  alt='SandeepsClicks visiting card — front'
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+
+              {/* BACK */}
+              <div style={{
+                position: 'absolute', inset: 0,
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                transform: 'rotateY(180deg)',
+                borderRadius: '4px',
+                overflow: 'hidden',
+              }}>
+                <img
+                  src='/back.jpeg'
+                  alt='SandeepsClicks visiting card — back'
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* caption */}
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: '0.85rem',
+            fontStyle: 'italic',
+            color: 'var(--ivory-dim)',
+            letterSpacing: '0.04em',
+            textAlign: 'center',
+          }}>
+            {/* Capturing Moment&apos;s, one frame at a Time */}
+          </p>
+
+          {/* hover hint */}
+          <p style={{
+            fontSize: '0.62rem',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: 'var(--muted)',
+          }}>
+            Hover or tap to flip
+          </p>
+        </div>
+
       </div>
 
       {/* scroll indicator */}
@@ -123,6 +206,25 @@ function Hero() {
         @keyframes scrollPulse {
           0%,100% { opacity: 0.3; transform: scaleY(0.6); }
           50%     { opacity: 1;   transform: scaleY(1); }
+        }
+
+        /* on mobile: stack vertically, card below text */
+        @media (max-width: 900px) {
+          .hero-inner {
+            flex-direction: column !important;
+            text-align: center !important;
+            justify-content: center !important;
+            padding-top: 6rem !important;
+          }
+          .hero-text {
+            text-align: center !important;
+          }
+          .hero-text div {
+            justify-content: center !important;
+          }
+          .hero-card div[style*="320px"] {
+            width: 260px !important;
+          }
         }
       `}</style>
     </section>
