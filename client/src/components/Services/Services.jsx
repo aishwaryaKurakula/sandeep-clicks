@@ -42,7 +42,7 @@ const SERVICES = [
   },
   {
     num: '04',
-    image: '/services-maternity.jpeg',
+    image:'/services-mat.jpeg',
     name: 'Maternity Photography',
     desc: 'Tender, glowing portraits that celebrate the beauty of motherhood and the journey to parenthood.',
     includes: [
