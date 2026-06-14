@@ -12,7 +12,6 @@ A full-stack photography portfolio and business management web application built
 
 ### Screenshots
 
-## Screenshots
 
 ![Home](client/public/hero-section.png)
 ![Portfolio](client/public/portfolio.png)
@@ -208,20 +207,19 @@ Navigate to `/admin` on the frontend and enter the admin password set in your se
 
 ## Deployment
 
-### Backend (Render / Railway)
-1. Set all environment variables from your `.env` in the platform dashboard
+
+## Backend (Render)
+1. Set all environment variables from your `.env` in the Render dashboard
 2. Set the start command to `node server.js`
-
-### Frontend (Vercel / Netlify)
+### Frontend (Netlify)
 1. Set the build command to `npm run build` and publish directory to `dist`
-2. Add `VITE_API_URL` pointing to your deployed backend URL
-3. For Vercel SPA routing, add a `vercel.json`:
-
-```json
-{
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-}
+2. Add `VITE_API_URL` pointing to your deployed Render backend URL
+3. Add a `_redirects` file inside `client/public/` for SPA routing:
 ```
+/*    /index.html   200
+```
+ 
+---
 
 ---
 
