@@ -34,3 +34,13 @@ export const deletePhoto = async (id, password) => {
   })
   return response.data
 }
+// bulk upload photos — admin only
+export const bulkUploadPhotos = async (formData, password) => {
+  const response = await axios.post(`${BASE_URL}/bulk`, formData, {
+    headers: {
+      'admin-password': password,
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+  return response.data
+}

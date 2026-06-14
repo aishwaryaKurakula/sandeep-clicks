@@ -1,194 +1,265 @@
 import { useState, useEffect } from 'react'
-import { getAllPhotos, getPhotosByCategory } from '../api/gallery'
+import { getAllPhotos } from '../api/gallery'
 
-const TOP_CATEGORIES = ['all', 'weddings', 'birthdays', 'saree ceremony', 'maternity']
+const CATEGORIES = {
+  all:        { label: 'All', subs: [] },
+  wedding:    { label: 'Wedding', subs: ['Pre Wedding', 'Haldi', 'Reception', 'Engagement', 'wedding'] },
+  saree:      { label: 'Saree Ceremony', subs: ['Saree Ceremony', 'Dhoti'] },
+  birthdays:  { label: 'Birthdays', subs: ['Birthdays', 'Naming Ceremony'] },
+  portraits:  { label: 'Portraits', subs: [] },
+  maternity:  { label: 'Maternity', subs: [] },
+}
 
-// these are only used in admin panel for upload tagging
-// client never sees these — they just see the top categories
-const SUB_CATEGORIES = {
-  weddings:  ['haldi', 'pre-wedding', 'reception', 'marriage'],
-  birthdays: ['birthday', 'naming ceremony'],
+// Normalise a string for case‑insensitive comparison and map legacy variations
+const normalizeCategory = (cat) => {
+  if (!cat) return ''
+  const lower = cat.toLowerCase().trim()
+  const aliasMap = {
+    'weddings': 'wedding',
+    'pre-wedding': 'pre wedding',
+    'dhoti ceremony': 'dhoti',
+    'naming ceremony': 'naming ceremony',
+    'saree ceremony': 'saree ceremony',
+    'haldi': 'haldi',
+    'reception': 'reception',
+    'engagement': 'engagement',
+    'birthday': 'birthdays',
+    'maternity': 'maternity',
+    'portraits': 'portraits',
+  }
+  return aliasMap[lower] || lower
 }
 
 const PLACEHOLDERS = [
-  { id: 1, emoji: '💍', label: 'Wedding Ceremony',   top: 'weddings',       ar: '3/4', bg: 'linear-gradient(135deg,#1a1208,#2d2010)' },
-  { id: 2, emoji: '🌸', label: 'Haldi Ceremony',     top: 'weddings',       ar: '4/5', bg: 'linear-gradient(135deg,#2a1a08,#3d2810)' },
-  { id: 3, emoji: '🌅', label: 'Pre-Wedding Shoot',  top: 'weddings',       ar: '4/3', bg: 'linear-gradient(135deg,#0d1520,#1a2535)' },
-  { id: 4, emoji: '🎊', label: 'Reception Night',    top: 'weddings',       ar: '2/3', bg: 'linear-gradient(135deg,#150d1a,#251030)' },
-  { id: 5, emoji: '🎉', label: 'Birthday Party',     top: 'birthdays',      ar: '1/1', bg: 'linear-gradient(135deg,#0d1520,#1a2535)' },
-  { id: 6, emoji: '👶', label: 'Naming Ceremony',    top: 'birthdays',      ar: '3/4', bg: 'linear-gradient(135deg,#150d08,#2a1a10)' },
-  { id: 7, emoji: '👗', label: 'Saree Ceremony',     top: 'saree ceremony', ar: '3/4', bg: 'linear-gradient(135deg,#1a0d0d,#2d1515)' },
-  { id: 8, emoji: '👗', label: 'Saree Draping',      top: 'saree ceremony', ar: '1/1', bg: 'linear-gradient(135deg,#121808,#202d10)' },
-  { id: 9, emoji: '🌿', label: 'Maternity Portrait', top: 'maternity',      ar: '3/4', bg: 'linear-gradient(135deg,#100d1a,#201530)' },
+  { id: 1,  cat: 'wedding',  sub: 'Pre Wedding',     h: '220px', bg: 'linear-gradient(135deg,#1a1208,#2d2010)', emoji: '🌅' },
+  { id: 2,  cat: 'wedding',  sub: 'Haldi',           h: '260px', bg: 'linear-gradient(135deg,#3d2010,#2a1208)', emoji: '🌸' },
+  { id: 3,  cat: 'wedding',  sub: 'Reception',       h: '200px', bg: 'linear-gradient(135deg,#251208,#1a0d05)', emoji: '🎊' },
+  { id: 4,  cat: 'wedding',  sub: 'Engagement',      h: '220px', bg: 'linear-gradient(135deg,#251208,#1a0d05)', emoji: '💍' },
+  { id: 5,  cat: 'wedding',  sub: 'wedding',         h: '250px', bg: 'linear-gradient(135deg,#2a1a08,#3d2010)', emoji: '💒' },
+  { id: 6,  cat: 'saree',    sub: 'Saree Ceremony',  h: '270px', bg: 'linear-gradient(135deg,#1a0808,#2d1010)', emoji: '👗' },
+  { id: 7,  cat: 'saree',    sub: 'Dhoti',           h: '255px', bg: 'linear-gradient(135deg,#150808,#1a0808)', emoji: '🪔' },
+  { id: 9,  cat: 'birthdays',sub: 'Birthdays',       h: '240px', bg: 'linear-gradient(135deg,#0d1520,#1a2535)', emoji: '🎉' },
+  { id: 10, cat: 'birthdays',sub: 'Naming Ceremony', h: '210px', bg: 'linear-gradient(135deg,#1a2535,#0d1520)', emoji: '👶' },
+  { id: 11, cat: 'portraits',sub: null,              h: '250px', bg: 'linear-gradient(135deg,#201530,#100d1a)', emoji: '📸' },
+  { id: 12, cat: 'maternity',sub: null,              h: '265px', bg: 'linear-gradient(135deg,#100d1a,#201530)', emoji: '🌿' },
 ]
 
-const btnBase = {
-  background: 'transparent',
-  padding: '0.4rem 1.1rem',
-  fontSize: '0.72rem',
-  letterSpacing: '0.1em',
-  textTransform: 'uppercase',
-  cursor: 'pointer',
+const topBtnStyle = (active) => ({
+  fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase',
+  padding: '0.4rem 1.1rem', cursor: 'pointer', borderRadius: '20px',
   transition: 'all 0.2s',
-  border: '0.5px solid rgba(201,137,42,0.3)',
-  color: 'var(--muted)',
-}
+  background: active ? 'rgba(201,137,42,0.1)' : 'transparent',
+  border: `0.5px solid ${active ? 'var(--gold)' : 'rgba(201,137,42,0.3)'}`,
+  color: active ? 'var(--gold)' : 'var(--muted)',
+})
 
-const btnActive = {
-  ...btnBase,
-  border: '0.5px solid var(--gold)',
-  color: 'var(--gold)',
-  background: 'rgba(201,137,42,0.08)',
-}
+const subBtnStyle = (active) => ({
+  fontSize: '0.68rem', letterSpacing: '0.08em', textTransform: 'uppercase',
+  padding: '0.3rem 0.85rem', cursor: 'pointer', borderRadius: '20px',
+  transition: 'all 0.2s',
+  background: active ? 'rgba(201,137,42,0.1)' : 'transparent',
+  border: `0.5px solid ${active ? 'var(--gold)' : 'rgba(201,137,42,0.2)'}`,
+  color: active ? 'var(--gold)' : 'var(--muted)',
+})
 
 function Portfolio() {
-  const [photos, setPhotos]   = useState([])
+  const [allPhotos, setAllPhotos] = useState([])
   const [loading, setLoading] = useState(true)
-  const [topCat, setTopCat]   = useState('all')
+  const [activeCat, setActiveCat] = useState('all')
+  const [activeSub, setActiveSub] = useState(null)
+  const [hoveredId, setHoveredId] = useState(null)
 
-  useEffect(() => { fetchPhotos('all') }, [])
-
-  const fetchPhotos = async (cat) => {
-    try {
-      setLoading(true)
-      const data = cat === 'all'
-        ? await getAllPhotos()
-        : await getPhotosByCategory(cat)
-      setPhotos(data)
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setLoading(false)
+  useEffect(() => {
+    const fetchAll = async () => {
+      try {
+        setLoading(true)
+        const data = await getAllPhotos()
+        setAllPhotos(data)
+        console.log('Loaded photos:', data.map(p => ({ title: p.title, category: p.category })))
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
     }
+    fetchAll()
+  }, [])
+
+  const handleTopCat = (key) => {
+    setActiveCat(key)
+    setActiveSub(null)
   }
 
-  const handleTop = (cat) => {
-    setTopCat(cat)
-    fetchPhotos(cat)
+  const handleSub = (sub) => {
+    setActiveSub(sub)
   }
 
-  const visiblePlaceholders = topCat === 'all'
-    ? PLACEHOLDERS
-    : PLACEHOLDERS.filter(p => p.top === topCat)
+  const subs = CATEGORIES[activeCat]?.subs || []
 
-  const showPlaceholders = photos.length === 0 && !loading
+  // Filter photos – case‑insensitive, using normalised values
+  const visiblePhotos = allPhotos.filter(photo => {
+    const rawCat = photo.category || ''
+    const normCat = normalizeCategory(rawCat)
+
+    if (activeCat === 'all') return true
+
+    const mainLabel = CATEGORIES[activeCat]?.label
+    const subList = CATEGORIES[activeCat]?.subs || []
+
+    const normMain = normalizeCategory(mainLabel)
+    const normSubs = subList.map(s => normalizeCategory(s))
+
+    if (!activeSub) {
+      // Show if category matches main label OR any subcategory
+      return normCat === normMain || normSubs.includes(normCat)
+    } else {
+      // Show only if matches the selected subcategory
+      const normActiveSub = normalizeCategory(activeSub)
+      return normCat === normActiveSub
+    }
+  })
+
+  const visiblePlaceholders = PLACEHOLDERS.filter(p => {
+    if (activeCat !== 'all' && p.cat !== activeCat) return false
+    if (activeSub && p.sub !== activeSub) return false
+    return true
+  })
+
+  const showPlaceholders = visiblePhotos.length === 0 && !loading
+
+  const getHoverText = (item, isPlaceholder = false) => {
+    if (isPlaceholder) {
+      return item.sub || CATEGORIES[item.cat]?.label
+    }
+    return item.category
+  }
 
   return (
     <section id='portfolio' style={{ background: 'var(--dark)', padding: '6rem 4rem' }}>
-
-      {/* header row */}
-      <div style={{
-        maxWidth: '1100px', margin: '0 auto 3.5rem',
-        display: 'flex', alignItems: 'flex-end',
-        justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem'
-      }} className='reveal'>
-        <div>
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '2rem' }}>
           <p className='section-eyebrow'>Portfolio</p>
           <h2 className='section-title'>Selected Work</h2>
         </div>
 
-        {/* top level filters only — no sub-categories shown to client */}
-        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-          {TOP_CATEGORIES.map(cat => (
-            <button
-              key={cat}
-              onClick={() => handleTop(cat)}
-              style={topCat === cat ? btnActive : btnBase}
-            >{cat}</button>
+        {/* top filter row */}
+        <div style={{
+          display: 'flex', gap: '0.5rem', flexWrap: 'wrap',
+          paddingBottom: '0.75rem',
+          borderBottom: '0.5px solid rgba(201,137,42,0.15)',
+          marginBottom: subs.length > 0 ? '0.75rem' : '2rem',
+        }}>
+          {Object.entries(CATEGORIES).map(([key, val]) => (
+            <button key={key} onClick={() => handleTopCat(key)}
+              style={topBtnStyle(activeCat === key)}>
+              {val.label}
+            </button>
           ))}
         </div>
-      </div>
 
-      {/* photo grid */}
-      <div style={{
-        maxWidth: '1100px', margin: '0 auto',
-        columns: 3, columnGap: '1.2rem'
-      }} className='portfolio-grid'>
-
-        {loading && (
-          <p style={{ color: 'var(--muted)', textAlign: 'center', padding: '3rem' }}>
-            Loading...
-          </p>
+        {/* sub-category row */}
+        {subs.length > 0 && (
+          <div style={{
+            display: 'flex', gap: '0.4rem', flexWrap: 'wrap',
+            paddingLeft: '0.75rem',
+            borderLeft: '2px solid var(--gold)',
+            marginBottom: '2rem',
+          }}>
+            <button onClick={() => setActiveSub(null)} style={subBtnStyle(activeSub === null)}>
+              All {CATEGORIES[activeCat].label}
+            </button>
+            {subs.map(sub => {
+              const active = activeSub === sub
+              return (
+                <button key={sub} onClick={() => handleSub(sub)} style={subBtnStyle(active)}>
+                  {sub}
+                </button>
+              )
+            })}
+          </div>
         )}
 
-        {/* real photos from backend */}
-        {!loading && photos.map(photo => (
-          <div key={photo._id} style={{
-            breakInside: 'avoid', marginBottom: '1.2rem',
-            position: 'relative', overflow: 'hidden', cursor: 'pointer'
-          }}>
-            <img
-              src={photo.imageUrl}
-              alt={photo.title}
-              style={{ width: '100%', display: 'block', transition: 'transform 0.4s' }}
-              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.03)'}
-              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-            />
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(180deg,transparent 40%,rgba(13,13,13,0.9) 100%)',
-              display: 'flex', alignItems: 'flex-end',
-              padding: '1.2rem', opacity: 0, transition: 'opacity 0.3s'
+        {/* masonry grid */}
+        <div style={{ columns: 3, columnGap: '1.2rem' }} className='portfolio-grid'>
+          {loading && (
+            <p style={{ color: 'var(--muted)', textAlign: 'center', padding: '3rem' }}>Loading…</p>
+          )}
+
+          {/* real photos */}
+          {!loading && visiblePhotos.map(photo => (
+            <div key={photo._id} style={{
+              breakInside: 'avoid', marginBottom: '1.2rem',
+              position: 'relative', overflow: 'hidden',
+              cursor: 'pointer', borderRadius: '4px',
             }}
-              onMouseEnter={e => e.currentTarget.style.opacity = 1}
-              onMouseLeave={e => e.currentTarget.style.opacity = 0}
+              onMouseEnter={() => setHoveredId(photo._id)}
+              onMouseLeave={() => setHoveredId(null)}
             >
-              <div>
-                <p style={{
-                  fontSize: '0.8rem', color: 'var(--ivory)',
-                  fontFamily: "'Playfair Display',serif"
-                }}>{photo.title}</p>
-                <p style={{
-                  fontSize: '0.7rem', color: 'var(--gold)',
-                  letterSpacing: '0.08em', textTransform: 'uppercase'
-                }}>{photo.category}</p>
+              <img src={photo.imageUrl} alt={photo.title}
+                style={{
+                  width: '100%', display: 'block',
+                  transition: 'transform 0.4s',
+                  transform: hoveredId === photo._id ? 'scale(1.03)' : 'scale(1)',
+                }} />
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(180deg,transparent 40%,rgba(13,13,13,0.9) 100%)',
+                display: 'flex', alignItems: 'flex-end', padding: '1.2rem',
+                opacity: hoveredId === photo._id ? 1 : 0,
+                transition: 'opacity 0.3s',
+              }}>
+                <div>
+                  <p style={{ fontSize: '0.7rem', color: 'var(--gold)', letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0 }}>
+                    {getHoverText(photo, false)}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
 
-        {/* placeholders */}
-        {showPlaceholders && visiblePlaceholders.map(p => (
-          <div key={p.id} style={{
-            breakInside: 'avoid', marginBottom: '1.2rem',
-            position: 'relative', overflow: 'hidden', cursor: 'pointer'
-          }}>
-            <div style={{
-              width: '100%', aspectRatio: p.ar,
-              background: p.bg,
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontSize: '2rem',
-              color: 'rgba(201,137,42,0.2)',
-              transition: 'transform 0.4s'
+          {/* placeholders */}
+          {showPlaceholders && visiblePlaceholders.map(p => (
+            <div key={p.id} style={{
+              breakInside: 'avoid', marginBottom: '1.2rem',
+              position: 'relative', overflow: 'hidden',
+              cursor: 'pointer', borderRadius: '4px',
             }}
-              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.03)'}
-              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+              onMouseEnter={() => setHoveredId(p.id)}
+              onMouseLeave={() => setHoveredId(null)}
             >
-              {p.emoji}
+              <div style={{
+                width: '100%', height: p.h,
+                background: p.bg,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '2rem', color: 'rgba(201,137,42,0.2)',
+                transition: 'transform 0.4s',
+                transform: hoveredId === p.id ? 'scale(1.03)' : 'scale(1)',
+                border: '0.5px solid rgba(201,137,42,0.1)',
+              }}>
+                {p.emoji}
+              </div>
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(180deg,transparent 40%,rgba(13,13,13,0.9) 100%)',
+                display: 'flex', alignItems: 'flex-end', padding: '1.2rem',
+                opacity: hoveredId === p.id ? 1 : 0,
+                transition: 'opacity 0.3s',
+              }}>
+                <div>
+                  <p style={{ fontSize: '0.7rem', color: 'var(--gold)', letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0 }}>
+                    {getHoverText(p, true)}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0,
-              padding: '1.2rem',
-              background: 'linear-gradient(180deg,transparent,rgba(13,13,13,0.9))'
-            }}>
-              <p style={{
-                fontSize: '0.8rem', color: 'var(--ivory)',
-                fontFamily: "'Playfair Display',serif"
-              }}>{p.label}</p>
-              <p style={{
-                fontSize: '0.7rem', color: 'var(--gold)',
-                textTransform: 'uppercase', letterSpacing: '0.08em'
-              }}>{p.top}</p>
-            </div>
-          </div>
-        ))}
+          ))}
 
-        {/* empty state */}
-        {!loading && photos.length === 0 && visiblePlaceholders.length === 0 && (
-          <p style={{ color: 'var(--muted)', textAlign: 'center', padding: '3rem' }}>
-            No photos in this category yet.
-          </p>
-        )}
+          {!loading && visiblePhotos.length === 0 && visiblePlaceholders.length === 0 && (
+            <p style={{ color: 'var(--muted)', textAlign: 'center', padding: '3rem' }}>
+              No photos in this category yet.
+            </p>
+          )}
+        </div>
       </div>
 
       <style>{`
