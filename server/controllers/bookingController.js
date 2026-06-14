@@ -1,4 +1,4 @@
-const Booking = require('../models/Booking')
+const Booking = require('../models/booking')
 
 // POST /api/bookings — client submits booking
 const createBooking = async (req, res) => {
