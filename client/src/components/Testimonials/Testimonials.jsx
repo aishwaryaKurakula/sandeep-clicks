@@ -12,10 +12,10 @@ const TESTIMONIALS = [
     event: "Naming Ceremony",
   },
   {
-    text: "Our product photos for the launch campaign turned out better than we imagined. Sandeep understood the brand perfectly and delivered well within the deadline.",
-    author: "Meena Krishnaswamy",
-    event: "Corporate, Brand Launch",
-  },
+  text: "Sandeep captured our saree ceremony so beautifully - every ritual, every emotion, every smile. The photos are something we will treasure forever.",
+  author: "Divya & Family",
+  event: "Saree Ceremony, Hyderabad",
+},
 ]
 
 function TestimonialCard({ text, author, event }) {
