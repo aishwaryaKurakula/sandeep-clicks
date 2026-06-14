@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:5000/api/gallery'
+const BASE_URL = 'https://sandeep-clicks.onrender.com/api/gallery'
 
 // fetch all photos — used on gallery page
 export const getAllPhotos = async () => {
