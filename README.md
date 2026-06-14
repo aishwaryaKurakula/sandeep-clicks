@@ -178,7 +178,6 @@ The app will be available at `http://localhost:5173`.
 | GET | `/api/gallery` | Public | Fetch all photos |
 | GET | `/api/gallery/:category` | Public | Fetch photos by category |
 | POST | `/api/gallery` | Admin | Upload a single photo |
-| POST | `/api/gallery/bulk` | Admin | Bulk upload up to 100 photos |
 | DELETE | `/api/gallery/:id` | Admin | Delete a photo |
 
 ### Products
