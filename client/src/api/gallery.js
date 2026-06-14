@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://sandeep-clicks.onrender.com/api/gallery'
+const BASE_URL = `${import.meta.env.VITE_API_URL}/api/gallery`
 
 // fetch all photos — used on gallery page
 export const getAllPhotos = async () => {
