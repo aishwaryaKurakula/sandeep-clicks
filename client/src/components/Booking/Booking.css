@@ -1,0 +1,25 @@
+.booking-section {
+  padding: 6rem 4rem;
+  background: var(--dark2);
+}
+
+.booking-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.booking-header {
+  margin-bottom: 3rem;
+}
+
+.booking-title-em {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--gold);
+}
+
+@media (max-width: 900px) {
+  .booking-section {
+    padding: 4rem 2rem;
+  }
+}

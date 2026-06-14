@@ -179,7 +179,7 @@ function Admin() {
           <p style={{
             fontSize: '0.8rem', color: 'var(--muted)',
             marginBottom: '2rem'
-          }}>SandeepsCliks</p>
+          }}>sandeepsclicks</p>
 
           <label style={{
             fontSize: '0.72rem', letterSpacing: '0.12em',
@@ -232,7 +232,7 @@ function Admin() {
               fontFamily: "'Playfair Display',serif",
               fontSize: '1.8rem', color: 'var(--ivory)'
             }}>Admin Panel</p>
-            <p style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>SandeepsCliks</p>
+            <p style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>sandeepsclicks</p>
           </div>
           <button
             onClick={() => { sessionStorage.clear(); setLoggedIn(false) }}

@@ -1,0 +1,143 @@
+.services-section {
+  background: var(--dark2);
+  padding: 6rem 4rem;
+}
+
+.services-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Grid ── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+/* ── Card ── */
+.service-card {
+  background: var(--dark3);
+  border: 0.5px solid rgba(107, 124, 92, 0.2);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.service-card:hover {
+  border-color: rgba(107, 124, 92, 0.6);
+  transform: translateY(-4px);
+}
+
+/* ── Top bar ── */
+.service-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+  z-index: 2;
+}
+
+.service-card:hover .service-bar {
+  transform: scaleX(1);
+}
+
+/* ── Image ── */
+.service-card-img-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.service-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s;
+}
+
+.service-card:hover .service-card-img-wrap img {
+  transform: scale(1.05);
+}
+
+/* ── Content ── */
+.service-card-body {
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+}
+
+.service-card-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: rgba(107, 124, 92, 0.15);
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  line-height: 1;
+}
+
+.service-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--ivory);
+  margin-bottom: 0.6rem;
+}
+
+.service-card-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 1.2rem;
+}
+
+/* ── Includes list ── */
+.service-includes {
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--ivory-dim);
+  margin-top: auto;
+}
+
+.service-includes li {
+  padding: 0.3rem 0;
+  border-bottom: 0.5px solid rgba(107, 124, 92, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.service-includes li::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+/* ── CTA ── */
+.services-cta {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .services-section {
+    padding: 4rem 2rem;
+  }
+}

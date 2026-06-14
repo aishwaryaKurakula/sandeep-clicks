@@ -1,0 +1,42 @@
+.photo-card {
+  margin-bottom: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.photo-card img {
+  width: 100%;
+  object-fit: cover;
+  transition: transform 500ms;
+}
+
+.photo-card:hover img {
+  transform: scale(1.05);
+}
+
+.photo-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 300ms;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+}
+
+.photo-card:hover .photo-card-overlay {
+  opacity: 1;
+}
+
+.photo-card-title {
+  color: #fff;
+  font-weight: 600;
+}
+
+.photo-card-category {
+  color: #fb7185;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}

@@ -1,13 +1,13 @@
-import Navbar from '../components/Navbar'
-import Hero from '../components/Hero'
-import About from '../components/About'
-import Portfolio from '../components/Portfolio'
-import Services from '../components/Services'
-import Pricing from '../components/Pricing'
-import Shop from '../components/Shop'
-import Booking from '../components/Booking'
-import Testimonials from '../components/Testimonials'
-import Footer from '../components/Footer'
+import Navbar from '../components/Navbar/Navbar'
+import Hero from '../components/Hero/Hero'
+import About from '../components/About/About'
+import Portfolio from '../components/Portfolio/Portfolio'
+import Services from '../components/Services/Services'
+import Pricing from '../components/Pricing/Pricing'
+import Shop from '../components/Shop/Shop'
+import Booking from '../components/Booking/Booking'
+import Testimonials from '../components/Testimonials/Testimonials'
+import Footer from '../components/Footer/Footer'
 
 function Home() {
   return (

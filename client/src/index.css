@@ -1,4 +1,4 @@
-@import "tailwindcss";
+
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -7,16 +7,16 @@
 }
 
 :root {
-  --gold: #C9892A;
-  --gold-light: #E8B86D;
-  --gold-dark: #8F5E12;
-  --dark: #0D0D0D;
-  --dark2: #1A1A1E;
-  --dark3: #2A2A30;
-  --ivory: #F5F0E8;
-  --ivory-dim: #C8C0A8;
-  --text: #F0EBE0;
-  --muted: #8A8070;
+  --gold: #6B7C5C;
+  --gold-light: #8A9E78;
+  --gold-dark: #4A5C3C;
+  --dark: #F8F6F0;
+  --dark2: #EDF0E8;
+  --dark3: #E2E8DC;
+  --ivory: #1A2018;
+  --ivory-dim: #3D4A38;
+  --text: #1A2018;
+  --muted: #6B7860;
 }
 
 html { scroll-behavior: smooth; }

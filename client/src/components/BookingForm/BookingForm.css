@@ -1,0 +1,143 @@
+.bf-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.bf-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.bf-input {
+  background: var(--dark);
+  border: 0.5px solid rgba(201, 137, 42, 0.2);
+  color: var(--ivory);
+  padding: 0.85rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.bf-input:focus {
+  border-color: var(--gold);
+}
+
+.bf-input--date {
+  color-scheme: dark;
+}
+
+.bf-input--textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ── Form wrapper ── */
+.bf-form {
+  background: var(--dark3);
+  border: 0.5px solid rgba(201, 137, 42, 0.15);
+  padding: 3.5rem;
+}
+
+.bf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.bf-full-col {
+  grid-column: 1 / -1;
+}
+
+/* ── Error ── */
+.bf-error {
+  color: #e05a5a;
+  font-size: 0.82rem;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background: rgba(224, 90, 90, 0.08);
+  border: 0.5px solid rgba(224, 90, 90, 0.3);
+}
+
+/* ── Submit button ── */
+.bf-submit {
+  width: 100%;
+  background: var(--gold);
+  color: var(--dark);
+  padding: 1rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  margin-top: 1.5rem;
+}
+
+.bf-submit:hover:not(:disabled) {
+  background: var(--gold-light);
+}
+
+.bf-submit:disabled {
+  background: var(--gold-dark);
+  cursor: not-allowed;
+}
+
+.bf-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* ── Success state ── */
+.bf-success {
+  background: var(--dark3);
+  border: 0.5px solid rgba(201, 137, 42, 0.4);
+  padding: 4rem 3rem;
+  text-align: center;
+}
+
+.bf-success-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.bf-success-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--ivory);
+  margin-bottom: 0.8rem;
+}
+
+.bf-success-body {
+  color: var(--ivory-dim);
+  margin-bottom: 2rem;
+  line-height: 1.8;
+}
+
+.bf-success-btn {
+  background: transparent;
+  border: 1px solid rgba(201, 137, 42, 0.4);
+  color: var(--gold);
+  padding: 0.7rem 2rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.bf-success-btn:hover {
+  background: var(--gold);
+  color: var(--dark);
+}

@@ -1,0 +1,134 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 4rem;
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
+  transition: background 0.4s, backdrop-filter 0.4s, border-bottom 0.4s;
+}
+
+.navbar.is-scrolled {
+  background: rgba(248, 246, 240, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid rgba(201, 137, 42, 0.2);
+}
+
+/* ── Logo ── */
+.navbar-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--ivory);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.navbar-logo span {
+  color: var(--gold);
+}
+
+/* ── Desktop nav links ── */
+.navbar-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.navbar-links a {
+  color: var(--ivory-dim);
+  text-decoration: none;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navbar-links a:hover {
+  color: var(--gold);
+}
+
+/* ── Book Now CTA ── */
+.navbar-cta {
+  background: var(--gold);
+  color: var(--dark);
+  padding: 0.5rem 1.4rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.navbar-cta:hover {
+  background: var(--gold-light);
+}
+
+/* ── Hamburger ── */
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.navbar-hamburger span {
+  width: 22px;
+  height: 1.5px;
+  background: var(--ivory);
+  display: block;
+}
+
+/* ── Mobile overlay ── */
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  background: rgba(237, 240, 232, 0.98);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.mobile-nav-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  background: none;
+  border: none;
+  color: var(--ivory);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.mobile-nav a {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--ivory);
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .navbar-links,
+  .navbar-cta {
+    display: none;
+  }
+
+  .navbar-hamburger {
+    display: flex;
+  }
+}
