@@ -18,6 +18,8 @@ A full-stack photography portfolio and business management web application built
 ![Portfolio](client/public/portfolio.png)
 ![Products](client/public/products.png)
 ![booking](client/public/booking.png)
+![Admin-gallery](client/public//admin-1.png)
+![Admin-products](client/public/admin-2.png)
 
 ## Features
 
